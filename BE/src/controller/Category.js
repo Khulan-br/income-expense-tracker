@@ -13,15 +13,18 @@ export const getCategory = async (req, res) => {
   };
 
 export const getOneCategory = async (req, res) => {
-  const {id} = req.params;
-    const queryText = `SELECT * FROM category`;  
-    try {
-      const result = await db.query(queryText, [id]);
-      res.send(result.rows);
-    } catch (error) {
-      console.error(error);
-    }
-    };
+  const {id, name, description} = req.body;
+        const queryText = `
+          SELECT *
+          FROM users
+          WHERE id = $1 or name = $2 or description = $3`;
+        try {
+          const result = await db.query(queryText, [id, name, description]);
+          return result.rows
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
 
 export const createCategory = async (req, res) => {

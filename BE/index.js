@@ -5,6 +5,7 @@ import { db } from "./src/db.js";
 import { category } from "./src/router/category.js";
 import { record } from "./src/router/record.js";
 import { users } from "./src/router/users.js";
+import { signUp } from "./src/router/auth.js";
 
 const app = express();
 const port = 8000;
@@ -14,6 +15,7 @@ app.use(cors());
 app.use('/', users);
 app.use('/', record);
 app.use('/', category);
+app.use('/', signUp)
 
 
 app.get("/installExtension", async (req, res) => {
@@ -55,14 +57,18 @@ app.get("/record", async (req, res) => {
   const tableQueryText = `
    CREATE TABLE IF NOT EXISTS record (
         id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-        user_id TEXT,
+        user_id uuid REFERENCES users ON DELETE RESTRICT,
+        category_id uuid,
+        FOREIGN KEY user_id,
+        references user(id),
+        FOREIGN KEY category_id,
+        references category(id),
         name TEXT,
         amount FLOAT,
         transaction_type transaction_type DEFAULT 'INC' NOT NULL,
         description TEXT,
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        category_id TEXT
+        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`;
 
   try {

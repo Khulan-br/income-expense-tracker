@@ -1,5 +1,6 @@
 import { db } from "../db.js";
 
+
 export const getRecord = async (req, res) => {
  
   const queryText = `SELECT * FROM record`;  
@@ -12,14 +13,17 @@ export const getRecord = async (req, res) => {
 };
 
 export const getOneRecord = async (req, res) => {
-  const {id} = req.params;
-    const queryText = `SELECT * FROM record`;  
-      try {
-        const result = await db.query(queryText, [id]);
-        res.send(result.rows);
-      } catch (error) {
-        console.error(error);
-      }
+  const {id, user_id, category_id, name, transaction_type} = req.body;
+  const queryText = `
+    SELECT *
+    FROM users
+    WHERE id = $1 or user_id = $2 or category_id = $3 or transaction_type = $4`;
+  try {
+    const result = await db.query(queryText, [id, user_id, category_id, name, transaction_type]);
+    return result.rows
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createRecord = async (req, res) => {
