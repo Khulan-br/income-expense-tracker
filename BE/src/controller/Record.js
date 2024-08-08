@@ -2,13 +2,13 @@ import { db } from "../db.js";
 
 
 export const getRecord = async (req, res) => {
- 
   const queryText = `SELECT * FROM record`;  
   try {
     const result = await db.query(queryText);
-    res.send(result.rows);
+    return res.send(result.rows);
   } catch (error) {
     console.error(error);
+    return res.send("error");
   }
 };
 
@@ -23,6 +23,7 @@ export const getOneRecord = async (req, res) => {
     return result.rows
   } catch (error) {
     console.error(error);
+    return res.send("error")
   }
 };
 
@@ -43,10 +44,10 @@ export const createRecord = async (req, res) => {
           description,
           category_id
         ]);
-        res.status(201).json(result.rows[0]);
+        return res.status(201).json(result.rows[0]);
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Database error"});
+        return res.status(500).json({ error: "Database error"});
       }
     };
   
@@ -62,9 +63,10 @@ export const updateRecord = async (req, res) => {
         RETURNING *`,
         [user_id, name, amount, transaction_type, description, category_id, id]
         );
-        res.send(result.rows);
+        return res.send(result.rows);
       } catch (error) {
         console.error(error);
+        return res.status(500).json({ error: "Database error"});
       }
     };
     
@@ -77,8 +79,9 @@ export const deleteRecord = async (req, res) => {
         WHERE id = $1`,
         [id]
         );
-        res.send("user deleted");
+        return res.send("user deleted");
       } catch (error) {
         console.error(error);
+        return res.status(500).json({ error: "Database error"});
       }
     };

@@ -20,10 +20,10 @@ export const createUser = async (req, res) => {
               avatar_img,
               currency_type,
             ]);
-            res.status(201).json(result.rows[0]);
+            return res.status(201).json(result.rows[0]);
           } catch (err) {
             console.error(err);
-            res.status(500).json({ error: "Database error" });
+            return res.status(500).json({ error: "Database error" });
           }
           console.log(hash);
         });    
@@ -37,9 +37,10 @@ export const getUsers =  async (req, res) => {
         `;
       try {
         const result = await db.query(queryText);
-        res.send(result.rows);
+        return res.send(result.rows);
       } catch (error) {
         console.error(error);
+        return res.status(500).json({ error: "Database error"});
       }
     };
 
@@ -54,6 +55,7 @@ const {id, email, name, currency_type} = req.body;
           return result.rows
         } catch (error) {
           console.error(error);
+          return res.status(500).json({ error: "Database error"});
         }
       };
     
@@ -69,9 +71,10 @@ export const updateUser =  async (req, res) => {
         RETURNING *`,
         [email, name, password, avatar_img, id]
         );
-        res.send(result.rows);
+        return res.send(result.rows);
       } catch (error) {
         console.error(error);
+        return res.status(500).json({ error: "Database error"});
       }
     };
     
@@ -84,8 +87,9 @@ export const deleteUser =  async (req, res) => {
         WHERE id = $1`,
         [id]
         );
-        res.send("user deleted");
+        return res.send("user deleted");
       } catch (error) {
         console.error(error);
+        return res.status(500).json({ error: "Database error"});
       }
     };

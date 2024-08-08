@@ -2,20 +2,17 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import { db } from "./src/db.js";
-import { category } from "./src/router/category.js";
-import { record } from "./src/router/record.js";
-import { users } from "./src/router/users.js";
-import { signUp } from "./src/router/auth.js";
+import { users, record, category, auth} from "./src/router/index.js"
 
 const app = express();
-const port = 8000;
+const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/', users);
 app.use('/', record);
 app.use('/', category);
-app.use('/', signUp)
+app.use('/', auth);
 
 
 app.get("/installExtension", async (req, res) => {
@@ -102,6 +99,6 @@ app.get("/record", async (req, res) => {
     res.send("Table of category have just created");
   });
 
-app.listen(port, () => {
-  console.log(`My backend listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`My backend listening on port ${PORT}`);
 });

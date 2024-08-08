@@ -18,13 +18,13 @@ export const signInUser = async (req, res) => {
         const user = await getOneUser(req, res);
         bcrypt.compare(password, user[0].password, (err, result) => {
           if (result) {
-            res.send({ success: true, user: user });
+            return res.send({ success: true, user: user });
           } else {
-            res.send({ error: "Invalid email or password" });
+            return res.send({ error: "Invalid email or password" });
           }
         });
       } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Database error" });
+        return res.status(500).json({ error: "Database error" });
       }
 };
