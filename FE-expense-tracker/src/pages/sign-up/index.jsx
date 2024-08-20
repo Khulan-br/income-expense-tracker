@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 
 const SignupPage = () => {
+    
   const router = useRouter();
   const [error, setError] = useState();
   const BASE_URL = "http://localhost:8000";
@@ -23,17 +24,17 @@ const SignupPage = () => {
       console.log("working 1");
 
       const res = await axios.post(BASE_URL + "/auth/signup", {
-        name,
-        email,
-        password,
-        avatar_img,
-        currency_type,
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        avatar_img: avatar_img.value,
+        currency_type: currency_type.value,
       });
       console.log("working");
       console.log(res);
 
       if (res) {
-        router.push("/dashboard/main");
+        router.push("/step");
         return;
       }
     } catch (error) {

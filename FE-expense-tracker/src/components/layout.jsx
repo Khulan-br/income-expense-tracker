@@ -19,9 +19,9 @@ export const Layout = ({children, ChildStyle}) => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
     console.log(user)
-    if(!user) {
-      router.push('/sign-up')
-    }
+    // if(!user) {
+    //   router.push('/log-in')
+    // }
   }, [])
 
   return (
@@ -32,7 +32,7 @@ export const Layout = ({children, ChildStyle}) => {
             <DashboardLogo />
             <div className='flex gap-2 items-center'>
               <Link href='/dashboard/main'>Dashboard</Link>
-              <Link href='/record'>Records</Link>
+              <Link href='/dashboard/record'>Records</Link>
             </div>
           </div>
           <div className="flex items-center gap-6">

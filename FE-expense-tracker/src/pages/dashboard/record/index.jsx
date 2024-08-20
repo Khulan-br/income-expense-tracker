@@ -1,11 +1,14 @@
-import React from 'react'
+import CategoryMenu from './categoryMenu';
+import Layout from '@/components/layout';
+import RecordsListTable from './recordListTable';
 
 const Record = () => {
   return (
-    <div>
-      Record
-    </div>
-  )
-}
+    <Layout ChildStyle={true}>
+      <CategoryMenu />
+      <RecordsListTable />
+    </Layout>
+  );
+};
 
-export default Record
+export default Record;
